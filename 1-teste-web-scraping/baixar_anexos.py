@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup as bs
+import os
 
+diretorio = "1-teste-web-scraping"
 headers = {'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 OPR/117.0.0.0" }
 
 #captura do html
@@ -22,7 +24,7 @@ for link in topicos:
 
         pdf_response = requests.get(pdf_url, headers=headers)
         if pdf_response.status_code == 200:
-            nome_arquivo = texto.replace(" ", "_").replace(".", "") + ".pdf"
+            nome_arquivo = os.path.join(diretorio, texto.replace(" ", "_").replace(".", "") + ".pdf")
             with open(nome_arquivo, 'wb') as file:
                 file.write(pdf_response.content)
             print(f"{nome_arquivo} baixado com sucesso!")
