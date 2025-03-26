@@ -6,3 +6,5 @@
 - Requests - ```pip install requests```
 - ZipFile
 - OS
+- Tabula - ```pip install tabula-py``` 
+    - *Obs: Necessário ter o Java instalado também.
