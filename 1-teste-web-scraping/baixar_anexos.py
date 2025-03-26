@@ -10,3 +10,21 @@ site_dados = bs(site.text, "html.parser")
 
 topicos = site_dados.find_all('a', class_="internal-link")
 
+for link in topicos:
+    texto = link.get_text(strip=True)  # texto tag <a>
+    if texto in ["Anexo I.", "Anexo II."]:
+        pdf_url = link['href']  #URL do PDF
+
+        if pdf_url.startswith("/"): #prevenir links relativos
+            pdf_url = "https://www.gov.br" + pdf_url
+
+        print(f"Baixando {texto}: {pdf_url}")
+
+        pdf_response = requests.get(pdf_url, headers=headers)
+        if pdf_response.status_code == 200:
+            nome_arquivo = texto.replace(" ", "_").replace(".", "") + ".pdf"
+            with open(nome_arquivo, 'wb') as file:
+                file.write(pdf_response.content)
+            print(f"{nome_arquivo} baixado com sucesso!")
+        else:
+            print(f"Erro ao baixar {texto}: {pdf_response.status_code}")
