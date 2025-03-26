@@ -1,6 +1,7 @@
 import requests
 from bs4 import BeautifulSoup as bs
 import os
+from zipfile import ZipFile as zp
 
 diretorio = "1-teste-web-scraping"
 headers = {'User-Agent': "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/132.0.0.0 Safari/537.36 OPR/117.0.0.0" }
@@ -30,3 +31,10 @@ for link in topicos:
             print(f"{nome_arquivo} baixado com sucesso!")
         else:
             print(f"Erro ao baixar {texto}: {pdf_response.status_code}")
+
+#compactando os anexos
+zip_path = os.path.join(diretorio, "anexos_compactados.zip")
+
+with zp(zip_path, "w") as zip:
+    zip.write(os.path.join(diretorio, "Anexo_I.pdf"), "Anexo_I.pdf")
+    zip.write(os.path.join(diretorio, "Anexo_II.pdf"), "Anexo_II.pdf")
