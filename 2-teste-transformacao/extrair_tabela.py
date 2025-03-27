@@ -1,9 +1,14 @@
 import tabula
 import pandas as pd
+import pdfplumber
 
 anexo1 = "1-teste-web-scraping\Anexo_I.pdf"
 
-tabelas = tabula.read_pdf(anexo1, pages="3-181", multiple_tables=True)
+#total de páginas do pdf
+with pdfplumber.open(anexo1) as pdf:
+    total_paginas = len(pdf.pages)
+
+tabelas = tabula.read_pdf(anexo1, pages=f"3-{total_paginas}", multiple_tables=True)
 
 if not tabelas:
     raise ValueError("Nenhuma tabela foi encontrada no PDF.")
@@ -27,6 +32,8 @@ for i, tabela in enumerate(tabelas):
     tabelas_padronizadas.append(tabela)
 
 df_final = pd.concat(tabelas_padronizadas, ignore_index=True)
+
+df_final = df_final.rename(columns={"OD":"Seg. Odontológica", "AMB":"Seg. Ambulatorial"})
 
 df_final.to_csv("2-teste-transformacao/tabela_unificada.csv", index=False)
 
