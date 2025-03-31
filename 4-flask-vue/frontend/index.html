@@ -5,11 +5,132 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Buscar Operadoras</title>
   <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background-color: #f7f7f7;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+    }
+    input[type="text"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .result {
+      margin-top: 20px;
+    }
+    .result ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    .result li {
+      padding: 8px;
+      border: 1px solid #ddd;
+      margin: 5px 0;
+      border-radius: 4px;
+      background-color: #fafafa;
+    }
+    .error {
+      color: red;
+      text-align: center;
+      margin-top: 20px;
+    }
+  </style>
 </head>
+<body>
 
-  <body>
+  <div id="app" class="container">
+    <h1>Buscar Operadoras</h1>
+    <input type="text" v-model="termo" placeholder="Digite o nome da operadora..." />
+    <button @click="buscarOperadoras">Buscar</button>
+    
+    <div v-if="erro" class="error">{{ erro }}</div>
 
+    <div class="result" v-if="resultado.length > 0">
+      <ul>
+        <li v-for="operadora in resultado" :key="operadora.CNPJ">
+          <strong>{{ operadora.Razao_Social }}</strong><br>
+          Nome Fantasia: {{ operadora.Nome_Fantasia || 'Não informado' }}<br>
+          CNPJ: {{ operadora.CNPJ }}<br>
+          Telefone: {{ operadora.Telefone || 'Não informado' }}<br>
+          DDD: {{ operadora.DDD || 'Não informado' }}<br>
+          Endereço eletrônico: {{ operadora.Endereco_eletronico || 'Não informado' }}<br>
+          Cidade: {{ operadora.Cidade || 'Não informado' }}<br>
+          UF: {{ operadora.UF || 'Não informado' }}
+        </li>
+      </ul>
+    </div>
+  </div>
 
-  </body>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        termo: '',
+        resultado: [],
+        erro: ''
+      },
+      methods: {
+        buscarOperadoras: function() {
+          const termo = this.termo.trim();
+          if (!termo) {
+            this.erro = 'Por favor, informe um termo para buscar.';
+            this.resultado = [];
+            return;
+          }
+          
+          fetch(`/buscar?termo=${termo}`)
+            .then(response => {
+              if (!response.ok) {
+                throw new Error('Erro ao buscar operadoras.');
+              }
+              return response.json(); // Parse the JSON
+            })
+            .then(data => {
+              if (data.erro) {
+                this.erro = data.erro; // Erro no backend
+                this.resultado = [];
+              } else {
+                this.erro = '';
+                this.resultado = data; // Armazena os resultados
+              }
+            })
+            .catch(error => {
+              this.erro = 'Erro ao buscar operadoras. Tente novamente.';
+              this.resultado = [];
+              console.error('Erro na requisição:', error);
+            });
+        }
+      }
+    });
+  </script>
 
+</body>
 </html>
