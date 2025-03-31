@@ -5,7 +5,7 @@ import pandas as pd
 app = Flask(__name__, static_folder="../frontend")
 
 # Carregar o CSV
-df = pd.read_csv("4-flask-vue\\backend\\Relatorio_cadop.csv", sep=None, engine="python", encoding="utf-8")
+df = pd.read_csv("Relatorio_cadop.csv", sep=None, engine="python", encoding="utf-8")
 
 
 def buscar_operadoras(termo):
