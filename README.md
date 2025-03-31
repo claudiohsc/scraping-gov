@@ -16,3 +16,4 @@ Caso queira instalar as bibliotecas separadamente:
     - *Obs: Necessário ter o Java instalado antes.
 - Pandas ```pip install pandas```
 - pdfplumber    ```pip install pdfplumber```
+- Flask ```pip install flask```
