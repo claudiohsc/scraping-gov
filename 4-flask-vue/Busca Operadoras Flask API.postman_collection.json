@@ -1,0 +1,39 @@
+{
+	"info": {
+		"_postman_id": "9dcc7267-f598-4b9c-9fb0-de3aa1de0bfa",
+		"name": "Busca Operadoras Flask API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39669196"
+	},
+	"item": [
+		{
+			"name": "Buscar Operadoras",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://127.0.0.1:5000/buscar?termo=Unimed",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "5000",
+					"path": [
+						"buscar"
+					],
+					"query": [
+						{
+							"key": "termo",
+							"value": "Unimed",
+							"description": "Nome da operadora para busca"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
