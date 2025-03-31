@@ -17,3 +17,4 @@ Caso queira instalar as bibliotecas separadamente:
 - Pandas ```pip install pandas```
 - pdfplumber    ```pip install pdfplumber```
 - Flask ```pip install flask```
+- Numpy ```pip install numpy```

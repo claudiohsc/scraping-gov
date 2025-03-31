@@ -4,3 +4,4 @@ tabula-py
 pandas
 pdfplumber
 flask
+numpy
